@@ -16,7 +16,7 @@ cat "$CHEMIN/2016/"* | grep Organisation | wc -l
 Cependant, après avoir essayé de créer le seconde script j'ai compris que le premier n'était pas convenable pour que je puisse me baser sur lui. 
 Après quelques tentatives j'ai réussi à avoir un bon script.
 
-## 13/10 - explication du code :
+## 17/10 - explication du code :
 !/ usr / bin / bash
 if [ $ # - ne 1 ] - la condition if veut tester si le nombre d'arguments est différent de 1
 then - c'est une indication du début du bloc de commandes qui vont s'exécuter si la condition est vraie
