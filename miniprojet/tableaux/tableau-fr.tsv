@@ -1,0 +1,11 @@
+Numéro	URL	Code_HTTP	Encodage	Nb_mots
+1	https://fr.wikipedia.org/wiki/Robot	200	Non présent	13904
+2	https://fr.wikipedia.org/wiki/Robot_de_cuisine	200	Non présent	4131
+3	fr.wikipedia.org/wiki/Robot_d%27indexation	301	Non présent	0
+4	https://fr.wikipedia.org/wiki/Bot_informatique	200	Non présent	6555
+5	https://fr.wikipedia.org/wiki/Atlas_(robot)	200	Non présent	4027
+6	https://roboty.magistry.fr	000	Non présent	0
+7	https://fr.wikipedia.org/wiki/Robot_(Leonard_de_Vinci)	404	Non présent	2298
+8	https://fr.wiktionary.org/wiki/robot	429	Non présent	264
+9	https://fr.wikipedia.org/wiki/Protocole_d%27exclusion_des_robots	429	Non présent	264
+10	https://fr.wikipedia.org/wiki/Robotique	429	Non présent	264

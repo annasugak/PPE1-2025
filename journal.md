@@ -39,3 +39,53 @@ NOK = $ ( expr $NOK + 1)
 fi - la fin du if "intérieur"
 done < $FICHIER_URLS - indique que la boucle while doit lire les lignes à partir du fichier contenu dans la variable $FICHIER_URLS
 echo " $OK URLs et $NOK lignes douteuses " - à la fin, affiche un résumé : combien de lignes valides(OK) et combien de lignes douteuses(NOK)
+
+##22/10
+###on stocke dans la variable file le premier argument donné au script.
+file=$1
+
+###ainsi le compteur est initialisé à 1
+num=1
+
+###le chemin complet du fichier de sortie où seront enregistrés les résultats
+output="/home/annasugak/Bureau/PPE1-2526/PPE1-2025/miniprojet/tableaux/tableau-fr.tsv"
+
+###la création du fichier TSV avec les en-têtes de colonnes (-e permet d'interpréter \t comme une tabulation, > remplace le contenu du fichier au cas où il existe déjà)
+echo -e "Numéro\tURL\tCode_HTTP\tEncodage\tNb_mots" > "$output"
+
+###on lit le fichier ligne par ligne en mettant chaque ligne dans la variable "line"
+while read -r line; do
+
+###la vérification que la ligne n'est pas vide (-n signifie "pas vide")
+    if [ -n "$line" ]; then
+
+###l'nvoie d'une requête HTTP à l’URL et la récupération du code HTTP (-s c'est le mode silencieux, donc pas d’affichage dans le terminal;  -o /dev/null on ne garde pas le contenu de la page; -w "%{http_code}"  affiche uniquement le code HTTP)
+        code=$(curl -s -o /dev/null -w "%{http_code}" "$line")
+
+###le téléchargement du contenu HTML complet de la page et son stockage dans la variable content
+        content=$(curl -s "$line")
+
+###echo "$content" envoie le HTML à la commande grep -iPo; -P utilise la syntaxe Perl pour les expressions régulières; -o n’affiche que la partie qui correspond à la regex; la regex (?<=charset=)[a-zA-Z0-9_-]+ signifie que tous les caractères sont alphanumériques après charset=; head -n 1 garde uniquement la première correspondance.
+ encoding=$(echo "$content" | grep -iPo '(?<=charset=)[a-zA-Z0-9_-]+' | head -n 1)
+
+ ###on compte le nombre de mots dans le contenu HTML
+nb_mots=$(echo "$content" | wc -w)
+
+###on vérifie si la variable encoding est vide
+        if [ -z "$encoding" ]; then
+
+###la valeur par défaut si aucun encodage n'a été trouvé
+            encoding="Non présent"
+        fi
+
+###on ajoute une nouvelle ligne au fichier TSV contenant le numéro, l'URL, le code HTTP, l'encodage et le nombre de mots
+        echo -e "${num}\t${line}\t${code}\t${encoding}\t${nb_mots}" >> "$output"
+
+###l'incrémente la variable num (passe à l’URL suivante)
+         ((num++))
+
+###on termine la condition if [ -n "$line" ]
+    fi
+
+###on indique que la boucle while doit lire son entrée depuis le fichier file
+done < "$file"
